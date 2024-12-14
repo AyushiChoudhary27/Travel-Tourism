@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Booking Package</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-green-500 text-white py-4">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl font-bold">Car Booking Package</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Car Package Details -->
+        <div class="bg-white rounded shadow p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Book Your Car to <span id="destinationName"></span></h2>
+            <p class="text-lg mb-4"><strong>Distance: </strong> <span id="distance"></span> km</p>
+            <p class="text-lg mb-4"><strong>Price: ₹8,000</strong> (Includes driver and fuel)</p>
+            <p class="text-lg mb-4"><strong>Rating: </strong> 4.5 ⭐</p>
+        </div>
+
+        <!-- Car Photos -->
+        <section class="mb-8">
+            <h3 class="text-xl font-bold mb-4">Available Cars</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow p-4">
+                    <img src="https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-77.jpeg?isig=0&q=80" alt="Car 1" class="w-full rounded mb-4">
+                    <h4 class="text-lg font-bold mb-2">Sedan</h4>
+                    <p class="text-gray-600 mb-2"><strong>Price: ₹8,000</strong></p>
+                    <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition w-full mb-2" onclick="window.location.href='payment.html';">Book Now</button>
+                </div>
+                <div class="bg-white rounded-lg shadow p-4">
+                    <img src="https://imgd.aeplcdn.com/600x337/n/cw/ec/42355/xuv700-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80" alt="Car 2" class="w-full rounded mb-4">
+                    <h4 class="text-lg font-bold mb-2">SUV</h4>
+                    <p class="text-gray-600 mb-2"><strong>Price: ₹10,000</strong></p>
+                    <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition w-full mb-2" onclick="window.location.href='payment.html';">Book Now</button>
+                </div>
+                <!-- Add more car options here -->
+            </div>
+        </section>
+
+        <!-- Driver Contact -->
+        <section class="mb-8">
+            <h3 class="text-xl font-bold mb-4">Driver Information</h3>
+            <p class="text-lg mb-4"><strong>Driver Name: </strong> John Doe</p>
+            <p class="text-lg mb-4"><strong>Phone Number: </strong> <a href="tel:+911234567890" class="text-blue-500">+91 12345 67890</a></p>
+            <button class="px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition">Call Driver</button>
+        </section>
+    </main>
+
+    <footer class="bg-green-500 text-white py-4 text-center">
+        <p>&copy; 2024 Travel Explorer. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

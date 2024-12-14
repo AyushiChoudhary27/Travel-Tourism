@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                destination: params.get('destination') || 'Unknown Destination',
+                price: params.get('price') || '0',
+            };
+        }
+
+        function displayFlightDetails() {
+            const { destination, price } = getQueryParams();
+            document.getElementById('destination').textContent = destination;
+            document.getElementById('price').textContent = `₹${price}`;
+        }
+
+        window.onload = displayFlightDetails;
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-blue-500 text-white py-4">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl font-bold">Flight Booking</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Flight Booking Details -->
+        <div class="bg-white rounded shadow p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Book Your Flight to <span id="destination"></span></h2>
+            <p class="text-lg mb-4"><strong>Price: </strong><span id="price"></span></p>
+            <p class="text-lg mb-4"><strong>Flight Type: </strong> Economy Class</p>
+        </div>
+
+        <!-- Flight Options -->
+        <section class="mb-8">
+            <h3 class="text-xl font-bold mb-4">Available Flights</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow p-4">
+                    <img src="https://emerj.com/wp-content/uploads/2018/04/how-the-4-largest-airlines-use-artificial-intelligence.png" alt="Flight 1" class="w-full rounded mb-4">
+                    <h4 class="text-lg font-bold mb-2">Airline: Indigo</h4>
+                    <p class="text-gray-600 mb-2"><strong>Price: ₹2000</strong></p>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition w-full" 
+                        onclick="redirectToPayment('Indigo', 2000, 'https://www.traveldailymedia.com/assets/2021/01/airplane-1.jpg')">
+                        Book Now
+                    </button>
+                </div>
+                <div class="bg-white rounded-lg shadow p-4">
+                    <img src="https://emerj.com/wp-content/uploads/2018/04/how-the-4-largest-airlines-use-artificial-intelligence.png" alt="Flight 2" class="w-full rounded mb-4">
+                    <h4 class="text-lg font-bold mb-2">Airline: Air India</h4>
+                    <p class="text-gray-600 mb-2"><strong>Price: ₹2500</strong></p>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition w-full" 
+                        onclick="redirectToPayment('Air India', 2500, 'https://cdn.pixabay.com/photo/2017/12/29/07/50/airplane-3040026_960_720.jpg')">
+                        Book Now
+                    </button>
+                </div>
+                <!-- Add more flight options -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-blue-500 text-white py-4 text-center">
+        <p>&copy; 2024 Travel Explorer. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function redirectToPayment(airline, price, imageUrl) {
+            const url = `payment.html?airline=${encodeURIComponent(airline)}&price=${price}&imageUrl=${encodeURIComponent(imageUrl)}`;
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

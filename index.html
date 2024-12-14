@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+</head>
+
+
+<body class="bg-gray-100">
+ <!-- Navbar -->
+<nav class="bg-white shadow-md">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="text-xl font-bold text-gray-800">Tourist</div>
+
+        <!-- Hamburger Menu Button -->
+        <div class="block lg:hidden">
+            <button id="menu-toggle" class="text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul id="navbar" class="hidden lg:flex space-x-6 font-bold">
+            <li><a href="#" class="text-gray-700 text-lg hover:text-gray-900 transition-transform hover:scale-110">Home</a></li>
+            <li><a href="#" class="text-gray-700 text-lg hover:text-gray-900 transition-transform hover:scale-110">Tour</a></li>
+            <li><a href="#" class="text-gray-700 text-lg hover:text-gray-900 transition-transform hover:scale-110">Booking</a></li>
+            <li><a href="#" class="text-gray-700 text-lg hover:text-gray-900 transition-transform hover:scale-110">Destination</a></li>
+            <li><a href="#" class="text-gray-700 text-lg hover:text-gray-900 transition-transform hover:scale-110">Blog</a></li>
+            <li><a href="#" class="text-gray-700 text-lg hover:text-gray-900 transition-transform hover:scale-110">Gallery</a></li>
+            <li><a href="#" class="text-gray-700 text-lg hover:text-gray-900 transition-transform hover:scale-110">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-navbar" class="lg:hidden fixed inset-0 bg-white bg-opacity-90 z-50 hidden">
+    <div class="flex justify-center items-center h-full">
+        <ul class="space-y-6 font-bold text-lg">
+            <li><a href="#" class="text-gray-700 hover:text-gray-900 transition-transform hover:scale-110">Home</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-gray-900 transition-transform hover:scale-110">Tour</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-gray-900 transition-transform hover:scale-110">Booking</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-gray-900 transition-transform hover:scale-110">Destination</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-gray-900 transition-transform hover:scale-110">Blog</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-gray-900 transition-transform hover:scale-110">Gallery</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-gray-900 transition-transform hover:scale-110">Contact</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Mobile Menu Toggle Script -->
+<script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileNavbar = document.getElementById('mobile-navbar');
+    const menuLinks = document.querySelectorAll('#mobile-navbar a');
+
+    // Toggle the mobile menu visibility when hamburger button is clicked
+    menuToggle.addEventListener('click', () => {
+        mobileNavbar.classList.toggle('hidden');
+    });
+
+    // Close the mobile menu when a link is clicked
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileNavbar.classList.add('hidden');
+        });
+    });
+</script>
+
+  <!-- Banner Section -->
+<section class="relative bg-cover bg-center h-screen" style="background-image: url('https://wallpapershome.com/images/pages/ico_h/4062.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center text-white px-4">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Where do you want to go?</h1>
+        <p class="text-lg md:text-xl mb-8">Trips, experiences, and places. All in one service.</p>
+        <div class="w-full max-w-3xl p-6 rounded-lg">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Destination City Input -->
+                <div class="col-span-1 md:col-span-2 relative">
+                    <label for="destination" class="block text-white font-bold mb-1">Destination City</label>
+                    <input type="text" id="destination" placeholder="Enter city" class="w-full px-4 py-2 border border-gray-300 rounded text-black font-bold focus:outline-none focus:ring-2 focus:ring-blue-500" oninput="showSuggestions()">
+                    <ul id="suggestions" class="absolute bg-white text-black rounded shadow-md w-full max-h-40 overflow-auto hidden"></ul>
+                </div>
+                <!-- Month Input -->
+                <div>
+                    <label for="month" class="block text-white font-bold mb-1">Any Month</label>
+                    <input type="month" id="month" class="w-full px-4 py-2 border border-gray-300 rounded text-black font-bold focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <!-- Date Input -->
+                <div>
+                    <label for="date" class="block text-white font-bold mb-1">Short by Date</label>
+                    <input type="date" id="date" class="w-full px-4 py-2 border border-gray-300 rounded text-black font-bold focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <!-- Search Button -->
+                <button onclick="searchDestination()" class="px-6 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600 transition self-end">
+                    Search
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Predefined list of Indian cities
+    const cities = [
+        "Delhi", "Mumbai", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Pune", 
+        "Jaipur", "Surat", "Lucknow", "Kanpur", "Nagpur", "Patna", "Indore", "Bhopal", "Agra"
+    ];
+
+    const destinationInput = document.getElementById('destination');
+    const suggestionsList = document.getElementById('suggestions');
+
+    function showSuggestions() {
+        const query = destinationInput.value.toLowerCase();
+        suggestionsList.innerHTML = '';
+        if (!query) {
+            suggestionsList.classList.add('hidden');
+            return;
+        }
+        const filteredCities = cities.filter(city => city.toLowerCase().startsWith(query));
+        filteredCities.forEach(city => {
+            const listItem = document.createElement('li');
+            listItem.textContent = city;
+            listItem.className = 'cursor-pointer px-4 py-2 hover:bg-gray-200';
+            listItem.onclick = () => {
+                destinationInput.value = city;
+                suggestionsList.classList.add('hidden');
+            };
+            suggestionsList.appendChild(listItem);
+        });
+        suggestionsList.classList.remove('hidden');
+    }
+
+    function searchDestination() {
+        const destination = destinationInput.value;
+        const month = document.getElementById('month').value;
+        const date = document.getElementById('date').value;
+
+        if (!destination) {
+            alert('Please enter a destination city');
+            return;
+        }
+
+        const queryString = new URLSearchParams({ destination, month, date }).toString();
+        window.location.href = `destination.html?${queryString}`;
+    }
+</script>
+
+
+
+  <!-- Popular Destinations Section -->
+  <section class="py-16 bg-gray-100">
+    <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-4">Popular Destinations</h2>
+        <p class="text-lg text-gray-600 mb-12">World's best tourist destinations</p>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <img src="https://i.pinimg.com/originals/a2/51/16/a25116509e3645b04e24e0f65e89a463.jpg" alt="Destination 1" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800">Destination 1</h3>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <img src="https://i.pinimg.com/originals/a2/51/16/a25116509e3645b04e24e0f65e89a463.jpg" alt="Destination 2" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800">Destination 2</h3>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <img src="https://i.pinimg.com/originals/a2/51/16/a25116509e3645b04e24e0f65e89a463.jpg" alt="Destination 3" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800">Destination 3</h3>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <img src="https://i.pinimg.com/originals/a2/51/16/a25116509e3645b04e24e0f65e89a463.jpg" alt="Destination 4" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800">Destination 4</h3>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <img src="https://i.pinimg.com/originals/a2/51/16/a25116509e3645b04e24e0f65e89a463.jpg" alt="Destination 5" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800">Destination 5</h3>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <img src="https://i.pinimg.com/originals/a2/51/16/a25116509e3645b04e24e0f65e89a463.jpg" alt="Destination 6" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800">Destination 6</h3>
+                </div>
+            </div>
+            <!-- Card 7 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <img src="https://i.pinimg.com/originals/a2/51/16/a25116509e3645b04e24e0f65e89a463.jpg" alt="Destination 7" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800">Destination 7</h3>
+                </div>
+            </div>
+            <!-- Card 8 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <img src="https://i.pinimg.com/originals/a2/51/16/a25116509e3645b04e24e0f65e89a463.jpg" alt="Destination 8" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800">Destination 8</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Best Value Trips Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-4">Best Value Trips</h2>
+        <p class="text-lg text-gray-600 mb-12">Best offers trips from us</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition">
+                <img src="https://img.freepik.com/premium-photo/rajwada-palace-indore_78361-547.jpg" alt="Trip 1" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-gray-500 flex items-center">
+                            ⭐⭐⭐⭐⭐
+                            <span class="ml-1">(4 reviews)</span>
+                        </span>
+                        <span class="text-sm text-gray-500 flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.3 0-2.6-.2-3.8-.6-1.2-.4-2.4-1-3.5-1.6C3.2 5.2 2 4.1 2 3v6c0 2.2.8 4.3 2.3 6C6 17 9 18.7 12 20.3s6-1.3 8-4c1.5-1.7 2.3-3.8 2.3-6V3c0 1-.8 2.1-2.3 2.8-1.1.6-2.3 1.2-3.5 1.6-1.3.4-2.6.6-3.8.6z"></path></svg>
+                            5 days
+                        </span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">French Autumn</h3>
+                    <p class="text-gray-600 text-sm mb-4">City Tours, Urban</p>
+                    <div class="text-red-500 text-xl font-bold">$499</div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition">
+                <img src="https://www.mptourism.com/images/point-of-interest/indore-poi5.webp" alt="Trip 2" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-gray-500 flex items-center">
+                            ⭐⭐⭐⭐⭐
+                            <span class="ml-1">(8 reviews)</span>
+                        </span>
+                        <span class="text-sm text-gray-500 flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.3 0-2.6-.2-3.8-.6-1.2-.4-2.4-1-3.5-1.6C3.2 5.2 2 4.1 2 3v6c0 2.2.8 4.3 2.3 6C6 17 9 18.7 12 20.3s6-1.3 8-4c1.5-1.7 2.3-3.8 2.3-6V3c0 1-.8 2.1-2.3 2.8-1.1.6-2.3 1.2-3.5 1.6-1.3.4-2.6.6-3.8.6z"></path></svg>
+                            7 days
+                        </span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Swiss Adventure</h3>
+                    <p class="text-gray-600 text-sm mb-4">Mountains, Lakes</p>
+                    <div class="text-red-500 text-xl font-bold">$899</div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition">
+                <img src="https://www.mptourism.com/images/point-of-interest/indore-poi5.webp" alt="Trip 3" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-gray-500 flex items-center">
+                            ⭐⭐⭐⭐
+                            <span class="ml-1">(10 reviews)</span>
+                        </span>
+                        <span class="text-sm text-gray-500 flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.3 0-2.6-.2-3.8-.6-1.2-.4-2.4-1-3.5-1.6C3.2 5.2 2 4.1 2 3v6c0 2.2.8 4.3 2.3 6C6 17 9 18.7 12 20.3s6-1.3 8-4c1.5-1.7 2.3-3.8 2.3-6V3c0 1-.8 2.1-2.3 2.8-1.1.6-2.3 1.2-3.5 1.6-1.3.4-2.6.6-3.8.6z"></path></svg>
+                            10 days
+                        </span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Italian Romance</h3>
+                    <p class="text-gray-600 text-sm mb-4">Historic Sites, Cuisine</p>
+                    <div class="text-red-500 text-xl font-bold">$1299</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="py-16 bg-gray-100">
+    <div class="container mx-auto text-center">
+      <!-- Why Choose Us Header -->
+      <h2 class="text-4xl font-semibold mb-6">Why Choose Us</h2>
+      <p class="text-lg mb-12">Here are reasons you should plan your trip with us</p>
+  
+      <!-- Logos and Descriptions -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <!-- First Logo Section -->
+        <div class="flex flex-col items-center">
+          <div class="mb-4">
+            <!-- Replace with your logo image -->
+            <img src="https://png.pngtree.com/png-vector/20230413/ourmid/pngtree-3d-location-icon-clipart-in-transparent-background-vector-png-image_6704161.png" alt="Handpicked Hotels" class="w-20 h-20" />
+          </div>
+          <h3 class="text-2xl font-semibold mb-2">Handpicked Hotels</h3>
+          <p class="text-gray-600">
+            Lorem ipsum dolor sit amet, consect adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+          </p>
+        </div>
+  
+        <!-- Second Logo Section -->
+        <div class="flex flex-col items-center">
+          <div class="mb-4">
+            <!-- Replace with your logo image -->
+            <img src="https://cdn4.iconfinder.com/data/icons/dollar-trading-1-1/512/xxx003-512.png" alt="Affordable Flights" class="w-20 h-20" />
+          </div>
+          <h3 class="text-2xl font-semibold mb-2">Affordable Flights</h3>
+          <p class="text-gray-600">
+            Lorem ipsum dolor sit amet, consect adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+          </p>
+        </div>
+  
+        <!-- Third Logo Section -->
+        <div class="flex flex-col items-center">
+          <div class="mb-4">
+            <!-- Replace with your logo image -->
+            <img src="https://clipartix.com/wp-content/uploads/2016/04/Bus-clip-art-bus-clipart-photo-clipartbold-3.png" alt="Convenient Transport" class="w-20 h-20" />
+          </div>
+          <h3 class="text-2xl font-semibold mb-2">Convenient Transport</h3>
+          <p class="text-gray-600">
+            Lorem ipsum dolor sit amet, consect adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Articles & Tips Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto text-center mb-12">
+      <h2 class="text-5xl font-bold text-gray-800">Articles &amp; Tips</h2>
+      <p class="text-lg text-gray-600 mt-4">Explore some of the best tips from around the world</p>
+    </div>
+    
+    <!-- Cards Container -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 container mx-auto px-4">
+      <!-- Card 1 -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <img src="https://wallpapersok.com/images/high/travel-4k-japan-fuji-8tuep3c86h4lngec.jpg" alt="Card 1" class="w-full h-64 object-cover">
+        <div class="p-6">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-4">Tip 1: Travel Smart</h3>
+          <p class="text-gray-600">Learn how to make the most of your travels with tips on budgeting, packing, and exploring new places efficiently.</p>
+        </div>
+      </div>
+  
+      <!-- Card 2 -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <img src="https://wallpapersok.com/images/high/travel-4k-japan-fuji-8tuep3c86h4lngec.jpg" alt="Card 2" class="w-full h-64 object-cover">
+        <div class="p-6">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-4">Tip 2: Find Hidden Gems</h3>
+          <p class="text-gray-600">Discover off-the-beaten-path destinations that offer a unique and authentic experience away from the crowds.</p>
+        </div>
+      </div>
+  
+      <!-- Card 3 -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <img src="https://wallpapersok.com/images/high/travel-4k-japan-fuji-8tuep3c86h4lngec.jpg" alt="Card 3" class="w-full h-64 object-cover">
+        <div class="p-6">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-4">Tip 3: Pack Light & Smart</h3>
+          <p class="text-gray-600">Get the best packing advice for your next trip and learn how to travel with just the essentials to avoid overpacking.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+<!-- Footer Section -->
+<footer class="bg-black text-white py-16">
+    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Left Side: Award and Short Paragraph -->
+      <div class="flex flex-col justify-center items-start">
+        <h3 class="text-3xl font-semibold mb-4">Award</h3>
+        <p class="text-gray-400">We are recognized as one of the top travel agencies with awards for excellent customer service and unforgettable experiences.</p>
+      </div>
+  
+      <!-- Center Side: Contact Info, Location, Social Icons -->
+      <div class="flex flex-col justify-center items-center">
+        <h3 class="text-3xl font-semibold mb-4">Contact Info</h3>
+        <p class="text-gray-400 mb-4">123 Travel Street, City, Country</p>
+        <p class="text-gray-400 mb-4">+123 456 7890</p>
+        <p class="text-gray-400 mb-4">info@travel.com</p>
+  
+        <div class="flex space-x-4 mt-4">
+          <!-- Social Icons -->
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+  
+     <!-- Right Side: Recent Trips (6 Small Images) -->
+<div class="flex flex-col justify-center items-center text-center">
+    <h3 class="text-3xl font-semibold mb-4">Recent Trips</h3>
+    <div class="grid grid-cols-3 gap-4">
+      <!-- Image 1 -->
+      <img src="https://wallpapers.com/images/hd/travel-4k-volcano-ynlmn2hmts0n7gsw.jpg" alt="Trip 1" class="w-full h-24 object-cover rounded-md">
+      <!-- Image 2 -->
+      <img src="https://wallpapers.com/images/hd/travel-4k-volcano-ynlmn2hmts0n7gsw.jpg" alt="Trip 2" class="w-full h-24 object-cover rounded-md">
+      <!-- Image 3 -->
+      <img src="https://wallpapers.com/images/hd/travel-4k-volcano-ynlmn2hmts0n7gsw.jpg" alt="Trip 3" class="w-full h-24 object-cover rounded-md">
+      <!-- Image 4 -->
+      <img src="https://wallpapers.com/images/hd/travel-4k-volcano-ynlmn2hmts0n7gsw.jpg" alt="Trip 4" class="w-full h-24 object-cover rounded-md">
+      <!-- Image 5 -->
+      <img src="https://wallpapers.com/images/hd/travel-4k-volcano-ynlmn2hmts0n7gsw.jpg" alt="Trip 5" class="w-full h-24 object-cover rounded-md">
+      <!-- Image 6 -->
+      <img src="https://wallpapers.com/images/hd/travel-4k-volcano-ynlmn2hmts0n7gsw.jpg" alt="Trip 6" class="w-full h-24 object-cover rounded-md">
+    </div>
+  </div>
+  
+    </div>
+  
+    <div class="text-center mt-8">
+        <p class="text-gray-400 text-sm">© 2024 Copy Right By  <span class="text-lg font-semibold  text-red-500">Siddharth Soni</span>.</p>
+
+    </div>
+  </footer>
+  
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destination Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+    <script>
+        // Parse query parameters
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                destination: params.get('destination') || 'Unknown Destination',
+                month: params.get('month') || 'Any Month',
+                date: params.get('date') || 'Any Date'
+            };
+        }
+
+        // Initialize Google Maps services
+        function initGoogleServices(destination) {
+            const service = new google.maps.DistanceMatrixService();
+            const hotelService = new google.maps.places.PlacesService(document.createElement('div'));
+
+            // Calculate Distance
+            service.getDistanceMatrix(
+                {
+                    origins: ["New Delhi"], // Replace with user's location dynamically
+                    destinations: [destination],
+                    travelMode: google.maps.TravelMode.DRIVING
+                },
+                (response, status) => {
+                    if (status === google.maps.DistanceMatrixStatus.OK) {
+                        const distance = response.rows[0].elements[0].distance.text;
+                        document.getElementById('distance').textContent = distance;
+                    }
+                }
+            );
+
+            // Fetch Nearby Hotels
+            const request = {
+                query: `${destination} hotels`,
+                fields: ['name', 'rating', 'geometry'],
+            };
+
+            hotelService.findPlaceFromQuery(request, (results, status) => {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    const hotelList = document.getElementById('hotels');
+                    results.forEach((hotel) => {
+                        const hotelItem = document.createElement('li');
+                        hotelItem.textContent = `${hotel.name} (${hotel.rating || 'N/A'}⭐)`;
+                        hotelList.appendChild(hotelItem);
+                    });
+                }
+            });
+        }
+
+        // Display search results
+        function displayResults() {
+            const { destination, month, date } = getQueryParams();
+            document.getElementById('destinationName').textContent = destination;
+            document.getElementById('monthValue').textContent = month === 'Any Month' ? 'Any Month' : new Date(month).toLocaleString('default', { month: 'long', year: 'numeric' });
+            document.getElementById('dateValue').textContent = date === 'Any Date' ? 'Any Date' : new Date(date).toLocaleDateString();
+
+            initGoogleServices(destination);
+        }
+
+        window.onload = displayResults;
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl font-bold">Destination Details</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Destination Details -->
+        <div class="bg-white rounded shadow p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4" id="destinationName"></h2>
+            <p class="text-lg"><strong>Month: </strong><span id="monthValue"></span></p>
+            <p class="text-lg"><strong>Date: </strong><span id="dateValue"></span></p>
+            <p class="text-lg"><strong>Distance: </strong><span id="distance">Calculating...</span></p>
+        </div>
+
+        <!-- Hotels Nearby -->
+        <section class="mb-8">
+            <h3 class="text-xl font-bold mb-4">Nearby Hotels</h3>
+            <ul id="hotels" class="list-disc pl-5 text-gray-700"></ul>
+        </section>
+
+        <!-- Destination Packages -->
+        <section>
+            <h3 class="text-xl font-bold mb-6">Available Packages</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Example Card -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <img src="https://www.momondo.in/himg/7e/a0/d3/ice-191475462-64878787_3XL-131953.jpg" alt="Destination" class="w-full rounded mb-4">
+                    <h4 class="text-lg font-bold mb-2">5-Day Tour of <span id="destinationName"></span></h4>
+                    <p class="text-gray-600 mb-2">Distance: <span id="distance">Calculating...</span></p>
+                    <p class="text-gray-600 mb-4"><strong>Price: ₹10,000/person</strong></p>
+                    <div class="border-t pt-4">
+                        <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition w-full mb-2" onclick="window.location.href='flightBooking.html?destination='+encodeURIComponent(document.getElementById('destinationName').textContent);">Book Flight</button>
+                        <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition w-full mb-2" onclick="window.location.href='carBooking.html?destination='+encodeURIComponent(document.getElementById('destinationName').textContent);">Book Car</button>
+                        <button class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition w-full">Book Bus</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-blue-600 text-white py-4 text-center">
+        <p>&copy; 2024 Travel Explorer. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
